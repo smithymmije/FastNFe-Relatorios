@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8">
+        <title>FastNFe Relatórios</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+<body>
+    <header class="topo">
+        <nav class="menu-principal">
+            <ul>
+                <li><a href="/">Início</a></li>
+                <!--<li><a href="/generate">Gerar</a></li>-->
+                <!--<li><a href="/report">Relatório</a></li>-->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="secao-principal pagina-inicial">
+        <h1>Bem-vindo ao Gerador de Relatórios</h1>
+        <p>Selecione um arquivo XML para começar.</p>
+        <form action="/generate" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Enviar Arquivo</button>
+        </form>
+    </main>
+
+    <footer class="rodape" id="rodape">
+        <p>&copy; 2025 Gerador de Relatórios | Desenvolvido por Jimmy Smith | Aplicação: Flask (Python)</p>
+    </footer>
+
+    <script>
+        function ajustarPaddingBottom() {
+            const rodape = document.getElementById('rodape');
+            if (rodape) {
+                const alturaRodape = rodape.offsetHeight;
+                document.body.style.paddingBottom = alturaRodape + 'px';
+            }
+        }
+    
+        // Chame a função quando a página carregar e quando a janela for redimensionada
+        window.onload = ajustarPaddingBottom;
+        window.onresize = ajustarPaddingBottom;
+    </script>
+</body>
+</html>

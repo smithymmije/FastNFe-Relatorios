@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>FastNFe - Relatório</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Função para copiar o texto
+        function copiarTexto(id) {
+            const texto = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('Texto copiado com sucesso!');
+            }).catch(err => {
+                alert('Erro ao copiar o texto: ' + err);
+            });
+        }
+    </script>
+    <style>
+        /* Os estilos específicos desta página podem ser adicionados aqui, */
+        /* ou você pode manter a maioria no style.css para consistência */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header class="topo">
+        <nav class="menu-principal">
+            <ul>
+                <li><a href="/">Início</a></li>
+                <!--<li><a href="/generate">Gerar</a></li>
+                <li><a href="/report">Relatório</a></li>-->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="secao-principal">
+        <h1>Relatório Gerado</h1>
+
+        {% if report_data.motivo %}
+            <h2>Motivo de Compra</h2>
+            <p id="textoMotivo">{{ report_data.motivo[8:] }}</p>
+            <button onclick="copiarTexto('textoMotivo')">Copiar Motivo de Compra</button>
+        {% endif %}
+
+        {% if report_data.justificativa %}
+            <h2>Justificativa de Compra</h2>
+            <p id="textoJustificativa">Compra de {{ report_data.justificativa[8:] }}</p>
+            <button onclick="copiarTexto('textoJustificativa')">Copiar Justificativa</button>
+        {% endif %}
+
+
+        {% if report_data.Produtos %}
+            <h2>Itens Comprados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in report_data.Produtos %}
+                    <tr>
+                        <td>{{ produto.descricao }}</td>
+                        <td>{{ produto.quantidade }}</td>
+                        <td>R$ {{ produto.valor_unitario }}</td>
+                        <td>R$ {{ produto.valor_total_item }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+
+        {% if report_data %}
+            <h2>Dados do Destinatário</h2>
+            {% if report_data["Destinatário Nome"] %}
+                <p><strong>Nome:</strong> {{ report_data["Destinatário Nome"] }}</p>
+            {% endif %}
+            {% if report_data["Destinatário CNPJ"] %}
+                <p><strong>CNPJ:</strong> {{ report_data["Destinatário CNPJ"] }}</p>
+            {% elif report_data["Destinatário CPF"] %}
+                <p><strong>CPF:</strong> {{ report_data["Destinatário CPF"] }}</p>
+            {% endif %}
+            {% if report_data["Destinatário Logradouro"] %}
+                <p><strong>Endereço:</strong> {{ report_data["Destinatário Logradouro"] }}, {{ report_data["Destinatário Número"] }}
+                {% if report_data["Destinatário Complemento"] %}- {{ report_data["Destinatário Complemento"] }}{% endif %}
+                - {{ report_data["Destinatário Bairro"] }} - {{ report_data["Destinatário Município"] }} - {{ report_data["Destinatário UF"] }} - CEP: {{ report_data["Destinatário CEP"] }}</p>
+            {% endif %}
+            {% if report_data["Destinatário Email"] %}
+                <p><strong>Email:</strong> {{ report_data["Destinatário Email"] }}</p>
+            {% endif %}
+
+            <h2>Informações Gerais</h2>
+            {% for key, value in report_data.items() %}
+                {% if key != "motivo" and key != "justificativa" and key != "Produtos"
+                        and key != "Destinatário Nome" and key != "Destinatário CNPJ" and key != "Destinatário CPF"
+                        and key != "Destinatário Logradouro" and key != "Destinatário Número"
+                        and key != "Destinatário Complemento" and key != "Destinatário Bairro"
+                        and key != "Destinatário Município" and key != "Destinatário UF"
+                        and key != "Destinatário CEP" and key != "Destinatário Email" %}
+                    <p><strong>{{ key }}:</strong> {{ value }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+       
+
+        
+    </main>
+
+    <footer class="rodape" id="rodape">
+        <p>&copy; 2025 Gerador de Relatórios | Desenvolvido por Jimmy Smith | Aplicação: Flask (Python)</p>
+    </footer>
+
+    <script>
+        function ajustarPaddingBottom() {
+            const rodape = document.getElementById('rodape');
+            if (rodape) {
+                const alturaRodape = rodape.offsetHeight;
+                document.body.style.paddingBottom = alturaRodape + 'px';
+            }
+        }
+    
+        // Chame a função quando a página carregar e quando a janela for redimensionada
+        window.onload = ajustarPaddingBottom;
+        window.onresize = ajustarPaddingBottom;
+    </script>
+</body>
+</html>

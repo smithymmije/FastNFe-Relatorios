@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>FastNFe - Selecionar Dados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function validarSelecao() {
+            const checkboxes = document.querySelectorAll('input[name="info"]:checked');
+            if (checkboxes.length === 0) {
+                alert("Por favor, selecione pelo menos uma opção.");
+                return false;
+            }
+            return true;
+        }
+
+        function selecionarSecao(secao) {
+            const checkboxes = document.querySelectorAll(`#${secao} input[name="info"]`);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+        }
+
+        function deselecionarSecao(secao) {
+            const checkboxes = document.querySelectorAll(`#${secao} input[name="info"]`);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+    </script>
+</head>
+<body>
+    <header class="topo">
+        <nav class="menu-principal">
+            <ul>
+                <li><a href="/">Início</a></li>
+                <!--<li><a href="/generate">Gerar</a></li>
+                <li><a href="/report">Relatório</a></li>-->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="secao-principal">
+        <h1>Selecionar Dados para o Relatório</h1>
+        <form action="/report" method="POST" onsubmit="return validarSelecao();">
+
+            <h2>Informações Gerais</h2>
+            
+            <div id="gerais-secao">
+                <input type="checkbox" name="info" value="emitente_nome"> Emitente Nome: {{ data.emitente_nome }}
+                <input type="hidden" name="emitente_nome" value="{{ data.emitente_nome }}"><br>
+
+                <input type="checkbox" name="info" value="emitente_cnpj"> CNPJ Emitente: {{ data.emitente_cnpj }}
+                <input type="hidden" name="emitente_cnpj" value="{{ data.emitente_cnpj }}"><br>
+
+                <input type="checkbox" name="info" value="numero_nota"> Número da Nota: {{ data.numero_nota }}
+                <input type="hidden" name="numero_nota" value="{{ data.numero_nota }}"><br>
+
+                <input type="checkbox" name="info" value="data_emissao"> Data de Emissão: {{ data.data_emissao }}
+                <input type="hidden" name="data_emissao" value="{{ data.data_emissao }}"><br>
+
+                <input type="checkbox" name="info" value="valor_total"> Valor Total: R$ {{ data.valor_total }}
+                <input type="hidden" name="valor_total" value="{{ data.valor_total }}"><br>
+
+                <input type="checkbox" name="info" value="forma_pagamento"> Forma de Pagamento: {{ data.forma_pagamento }} (R$ {{ data.valor_pagamento }})
+                <input type="hidden" name="forma_pagamento" value="{{ data.forma_pagamento }}">
+                <input type="hidden" name="valor_pagamento" value="{{ data.valor_pagamento }}"><br>
+
+                <input type="checkbox" name="info" value="frete"> Frete: {{ data.frete }}
+                <input type="hidden" name="frete" value="{{ data.frete }}"><br>
+            </div>
+
+            <h2>Informações do Destinatário</h2>
+           
+            <div id="destinatario-secao">
+                <input type="checkbox" name="info" value="destinatario_nome"> Nome Destinatário: {{ data.destinatario_nome }}
+                <input type="hidden" name="destinatario_nome" value="{{ data.destinatario_nome }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_cnpj"> CNPJ Destinatário: {{ data.destinatario_cnpj }}
+                <input type="hidden" name="destinatario_cnpj" value="{{ data.destinatario_cnpj }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_cpf"> CPF Destinatário: {{ data.destinatario_cpf }}
+                <input type="hidden" name="destinatario_cpf" value="{{ data.destinatario_cpf }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_logradouro"> Logradouro Destinatário: {{ data.destinatario_logradouro }}
+                <input type="hidden" name="destinatario_logradouro" value="{{ data.destinatario_logradouro }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_numero"> Número Destinatário: {{ data.destinatario_numero }}
+                <input type="hidden" name="destinatario_numero" value="{{ data.destinatario_numero }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_complemento"> Complemento Destinatário: {{ data.destinatario_complemento }}
+                <input type="hidden" name="destinatario_complemento" value="{{ data.destinatario_complemento }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_bairro"> Bairro Destinatário: {{ data.destinatario_bairro }}
+                <input type="hidden" name="destinatario_bairro" value="{{ data.destinatario_bairro }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_municipio"> Município Destinatário: {{ data.destinatario_municipio }}
+                <input type="hidden" name="destinatario_municipio" value="{{ data.destinatario_municipio }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_uf"> UF Destinatário: {{ data.destinatario_uf }}
+                <input type="hidden" name="destinatario_uf" value="{{ data.destinatario_uf }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_cep"> CEP Destinatário: {{ data.destinatario_cep }}
+                <input type="hidden" name="destinatario_cep" value="{{ data.destinatario_cep }}"><br>
+
+                <input type="checkbox" name="info" value="destinatario_email"> Email Destinatário: {{ data.destinatario_email }}
+                <input type="hidden" name="destinatario_email" value="{{ data.destinatario_email }}"><br>
+            </div>
+
+            <h2>Produtos</h2>
+            <div id="produtos-secao">
+                <input type="checkbox" name="info" value="produtos"> Listar Produtos<br>
+                {% for produto in data.produtos %}
+                    <input type="hidden" name="descricao_produto" value="{{ produto.descricao }}">
+                    <input type="hidden" name="quantidade_produto" value="{{ produto.quantidade }}">
+                    <input type="hidden" name="valor_unitario_produto" value="{{ produto.valor_unitario }}">
+                    <input type="hidden" name="valor_total_item_produto" value="{{ produto.valor_total_item }}">
+                {% endfor %}
+            </div>
+
+            <button type="submit">Gerar Relatório</button>
+        </form>
+    </main>
+
+    <footer class="rodape" id="rodape">
+        <p>&copy; 2025 Gerador de Relatórios | Desenvolvido por Jimmy Smith | Aplicação: Flask (Python)</p>
+    </footer>
+
+    <script>
+    function ajustarPaddingBottom() {
+        const rodape = document.getElementById('rodape');
+        if (rodape) {
+            const alturaRodape = rodape.offsetHeight;
+            document.body.style.paddingBottom = alturaRodape + 'px';
+        }
+    }
+
+    // Chame a função quando a página carregar e quando a janela for redimensionada
+    window.onload = ajustarPaddingBottom;
+    window.onresize = ajustarPaddingBottom;
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados da Nota Fiscal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Estilos específicos para esta página (opcional) */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header class="topo">
+        <nav class="menu-principal">
+            <ul>
+                <li><a href="/">Início</a></li>
+                <!--<li><a href="/generate">Gerar</a></li>
+                <li><a href="/report">Relatório</a></li>-->
+            </ul>
+        </nav>
+    </header>
+
+    <main class="secao-principal">
+        <h1>Dados da Nota Fiscal</h1>
+        <h2>Emitente</h2>
+        <p><strong>Nome:</strong> {{ emitente_nome }}</p>
+        <p><strong>CNPJ:</strong> {{ emitente_cnpj }}</p>
+
+        <h2>Nota Fiscal</h2>
+        <p><strong>Número:</strong> {{ numero_nota }}</p>
+        <p><strong>Data de Emissão:</strong> {{ data_emissao }}</p>
+        <p><strong>Valor Total:</strong> R$ {{ valor_total }}</p>
+
+        <h2>Pagamento</h2>
+        <p><strong>Forma de Pagamento:</strong> {{ forma_pagamento }}</p>
+        <p><strong>Valor Pago:</strong> R$ {{ valor_pagamento }}</p>
+
+        <h2>Frete</h2>
+        <p><strong>Modalidade de Frete:</strong> {{ frete }}</p>
+
+        <h2>Produtos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Valor Unitário</th>
+                    <th>Valor Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto.descricao }}</td>
+                    <td>{{ produto.quantidade }}</td>
+                    <td>R$ {{ produto.valor_unitario }}</td>
+                    <td>R$ {{ produto.valor_total_item }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <footer class="rodape" id="rodape">
+        <p>&copy; 2025 Gerador de Relatórios | Desenvolvido por Jimmy Smith | Aplicação: Flask (Python)</p>
+    </footer>
+
+    <script>
+        function ajustarPaddingBottom() {
+            const rodape = document.getElementById('rodape');
+            if (rodape) {
+                const alturaRodape = rodape.offsetHeight;
+                document.body.style.paddingBottom = alturaRodape + 'px';
+            }
+        }
+    
+        // Chame a função quando a página carregar e quando a janela for redimensionada
+        window.onload = ajustarPaddingBottom;
+        window.onresize = ajustarPaddingBottom;
+    </script>
+</body>
+</html>
