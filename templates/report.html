@@ -49,9 +49,9 @@
         <h1>Relatório Gerado</h1>
 
         {% if report_data.motivo %}
-            <h2>Motivo de Compra</h2>
+            <h2>Descrição do Gasto</h2>
             <p id="textoMotivo">{{ report_data.motivo[8:] }}</p>
-            <button onclick="copiarTexto('textoMotivo')">Copiar Motivo de Compra</button>
+            <button onclick="copiarTexto('textoMotivo')">Copiar Descrição do Gasto</button>
         {% endif %}
 
         {% if report_data.justificativa %}
@@ -105,7 +105,7 @@
                 <p><strong>Email:</strong> {{ report_data["Destinatário Email"] }}</p>
             {% endif %}
 
-            <h2>Informações Gerais</h2>
+            <h2>Informações Gerais - Remetente</h2>
             {% for key, value in report_data.items() %}
                 {% if key != "motivo" and key != "justificativa" and key != "Produtos"
                         and key != "Destinatário Nome" and key != "Destinatário CNPJ" and key != "Destinatário CPF"
