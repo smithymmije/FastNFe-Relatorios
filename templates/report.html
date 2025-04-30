@@ -105,7 +105,7 @@
                 <p><strong>Email:</strong> {{ report_data["Destinatário Email"] }}</p>
             {% endif %}
 
-            <h2>Informações Gerais - Remetente</h2>
+            <h2>Informações Gerais - Fornecedor</h2>
             {% for key, value in report_data.items() %}
                 {% if key != "motivo" and key != "justificativa" and key != "Produtos"
                         and key != "Destinatário Nome" and key != "Destinatário CNPJ" and key != "Destinatário CPF"
