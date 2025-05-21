@@ -148,7 +148,7 @@ def generate_report():
     motivo = ""
     if produtos_maior_valor and "Número da Nota" in report_data and "Emitente Nome" in report_data:
         descricoes_maior_valor = [f'{produto["quantidade"]} {produto["descricao"]}' for produto in produtos_maior_valor]
-        motivo = f'Motivo: {", ".join(descricoes_maior_valor)}, alocados na Filial XX, para atender demanda de limpeza, referente a Maio/2025 - NF {report_data["Número da Nota"]} Fornecedor {report_data["Emitente Nome"]}'
+        motivo = f'Motivo: {", ".join(descricoes_maior_valor)}, alocados no almoxarifado, para atender demanda de filiais - NF {report_data["Número da Nota"]} Fornecedor {report_data["Emitente Nome"]}'
     report_data["motivo"] = motivo
     report_data["justificativa"] = motivo
 
